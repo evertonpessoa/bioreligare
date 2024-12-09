@@ -32,7 +32,7 @@ class PersonalProfileData extends DataTransferObject
             'cpfDocument' => Mask::strip($input['cpf']),
             'rgDocument' => $input['rg'],
             'gender' => $input['gender'],
-            'acceptsSciCollab' => $input['acceptScientificCollaboration'],
+            'acceptsSciCollab' => $input['acceptScientificCollaboration'] ?? false,
             'birthday' => Carbon::createFromFormat('d/m/Y', $input['birthday']),
             'profession' => $input['profession'] ?? null,
             'phone' => Mask::strip($input['phone']),

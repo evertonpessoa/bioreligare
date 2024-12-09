@@ -73,8 +73,8 @@
     },
     "repositories": [
         {
-            "type": "vcs",
-            "url": "git@gitlab.fireworkweb.com:laravel/nova.git"
+            "type": "path",
+            "url": "./nova"
         },
         {
             "type": "path",

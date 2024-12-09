@@ -1,0 +1,34 @@
+services:
+  app:
+    build: kool.deploy.dockerfile
+    port: 80
+    persists:
+      size: 5Gi
+      paths:
+        - path: /app/storage
+          sync: true
+          chown: kool:kool
+    public: true
+    recreate: true
+
+    # Here we can define processes that behave like services and must be run in the deployment only.
+    # Usually this is very helpful for queue workers and that kind of stuff.
+    # daemons:
+    #   - [ php, artisan, queue:listen, --tries=3, --timeout=600 ]
+
+    after:
+      - [ php, artisan, cache:clear ]
+      - [ php, artisan, config:clear ]
+      - [ php, artisan, route:clear ]
+      - [ php, artisan, view:clear ]
+      - [ php, artisan, migrate, --force ]
+
+    # cron:
+    #   - { schedule: "* * * * *", command: [ php, artisan, schedule:run ] }
+
+    environment: kool.deploy.env
+  database:
+    cloud: true
+  cache:
+    port: 6379
+    recreate: true

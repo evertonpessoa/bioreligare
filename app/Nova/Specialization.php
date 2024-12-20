@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Domain\User\Models\ProfessionalType;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Text;
@@ -52,7 +53,6 @@ class Specialization extends Resource
     {
 
         $specialtyType = SpecialtyType::select('id', 'title')->pluck('title', 'id')->toArray();
-        $professionalType = ProfessionalType::select('id', 'title')->pluck('title', 'id')->toArray();
 
         return [
 
@@ -68,9 +68,8 @@ class Specialization extends Resource
                 ->displayUsingLabels()
                 ->withMeta(['placeholder' => 'Escolha uma especialidade']),
 
-            Select::make('Equipe Profissional', 'professional_type_id')->options($professionalType)
-                ->creationRules('required')
-                ->displayUsingLabels()
+            BelongsTo::make('Equipe Profissional', 'professionalType', \App\Nova\ProfessionalType::class)
+                ->required()
                 ->withMeta(['placeholder' => 'Escolha uma equipe profissional']),
 
             Image::make('Banner Principal', 'main_banner_path')
